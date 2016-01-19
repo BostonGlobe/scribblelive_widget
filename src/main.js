@@ -1,22 +1,7 @@
 'use strict';
 (function() {
-	// global variables
-	var _messages = [];
-	var _curIndex = 0;
-	var _delayTime;
-	var _delayTimeout;
-	var _max;
-	var _chron;
+	var _opts;
 
-	var $messageText = $('.message-text');
-	var $messageContainer = $('.message-container');
-	var $messageUser = $('.message-user');
-	var $messageHed = $('.message-hed');
-	var $messageOverline = $('.message-overline');
-	var $messageUrl = $('.message-url');
-
-
-	// called once on page load
 	var init = function() {
 		if (pymChild) {
 			pymChild.onMessage('pong', setupGraphic);
@@ -26,126 +11,125 @@
 		}
 	};	
 
-	// graphic code
 	window.onLoadData = function(data) {
 		if(data && data.Posts) {
-			_messages = getMessages(data.Posts);
-			
-			if(_messages.length) {
-				showMessage();
+			var posts = getPosts(data.Posts);
+			if (posts.length) {
+				showPosts(posts);
 			} else {
-				console.log('error: no messages');
+				console.error('error: no posts');
 			}
 		} else {
-			console.log('error: no data');
+			console.error('error: no data');
 		}
 	};
 
 	var setupGraphic = function(str) {
-		var data = JSON.parse(str);
-
-		$.getJSON(data.jsonp);
+		_opts = JSON.parse(str);
 		
-		var overline = data.overline || 'Latest Updates';
-		var hed = data.hed || 'Live from the newsroom';
-		var url = data.url || 'http://live.bostonglobe.com';
-		_max = data.max || 5;
-		_delayTime = data.delay * 1000 || 10000;
-		_chron = data.cron || false;
+		_opts.overline = _opts.overline || 'Latest Updates';
+		_opts.hed = _opts.hed || 'Live from the newsroom';
+		_opts.url = _opts.url || 'http://live.bostonglobe.com';
+		_opts.max = _opts.max || 5;
+		_opts.delay = _opts.delay * 1000 || 8000;
+		_opts.chron = _opts.chron || false;
 
-		$messageOverline.text(overline);
-		$messageHed.text(hed);
-		$messageUrl.attr('href', url); 
+		setText();
+
+		loadJS(_opts.jsonp);
 	};
 
+	var setText = function() {
+		document.getElementsByClassName('post-overline')[0].innerText = _opts.overline;
+		document.getElementsByClassName('post-hed')[0].innerText = _opts.hed;
+		document.getElementsByClassName('post-url')[0].setAttribute('href',  _opts.url);
+	};
 
-	var getMessages = function(posts) {
+	var getPosts = function(posts) {
+		posts = posts.slice(0, _opts.max);
 
-		var messages = [];
-
-		posts = posts.slice(0, _max);
-
-		var dir = _chron ? 1 : -1;
-		var start = _chron ? 0 : posts.length - 1;
-
-		for(var i = 0; i < posts.length; i++) {
-
-			var index = start + i * dir;
-			
-			var post = posts[index];
-			
-			//only get approved posts of the right "type"
-			if(post.IsApproved === 1 && post.Type === 'TEXT') {
-				// clean message extracting links and crap that scribblelive kindly adds
-				var content = cleanContent(post.Content);
-					
-				var name = post.Creator.Name;
-
-				var message = {
-					content: content,
-					name: name,
-					id: post.Id,
-					date: post.Created
-				};
-
-				messages.push(message);
-			}
+		if (_opts.chron) {
+			posts.reverse();
 		}
 
-		return messages;
+		var filteredPosts = posts.filter(function(post) {
+			return post.IsApproved === 1 && post.Type === 'TEXT';
+		});
+
+		var cleanPosts = filteredPosts.map(function(post) {
+			return {
+				id: post.Id,
+				content: cleanContent(post.Content),
+				name: post.Creator.Name
+			};
+		});
+
+		return cleanPosts;
 	};
 
 	var cleanContent = function(content) {
-		var el = $('<div></div>');
-		el.html(content);
+		content = content.replace(/<img[^>]*>/g, '');
+		content = content.replace(/<br>/g, '');
+		content = content.replace(/<br\/>/g, '');
+		content = content.replace(/&amp;/g, '&');
+		content = content.replace(/&/g, 'and');
 
-		// el.find('img').each(function() {
-			// $(this).remove();
-		// });
-		el.find('br').each(function() {
-			$(this).remove();
-		});
+		return content;
+	};
 
-		el.find('a').each(function(e,i) {
-			var text = $(this).text().toLowerCase();
-			if(isImage(text)) {
-				$(this).remove();
+	var showPosts = function(posts) {
+		var container = document.getElementsByClassName('post-container')[0];
+		var text = document.getElementsByClassName('post-text')[0];
+		var user = document.getElementsByClassName('post-user')[0];
+		var transitionEvent = whichTransitionEvent();
+		var index = 0;
+		var post;
+		var delayTimeout;
+
+		var delay = function() {
+			clearTimeout(delayTimeout);
+			delayTimeout = setTimeout(function() {
+				index++;
+				if(index >= posts.length) { index = 0; }
+				
+				next();
+			}, _opts.delay);
+		};
+
+		var fadeOutComplete = function() {
+			container.removeEventListener(transitionEvent, fadeOutComplete);
+			text.innerHTML = post.content;
+			user.innerHTML = '&mdash;' + post.name;
+			container.classList.remove('hide');
+
+			delay();
+		};
+
+		var next = function() {
+			post = posts[index];
+			container.addEventListener(transitionEvent, fadeOutComplete);
+			container.classList.add('hide');
+		};
+
+		next();
+	};
+
+	var whichTransitionEvent = function(){
+		var t;
+		var el = document.createElement('fakeelement');
+		var transitions = {
+			'transition':'transitionend',
+			'OTransition':'oTransitionEnd',
+			'MozTransition':'transitionend',
+			'WebkitTransition':'webkitTransitionEnd'
+		};
+
+		for (t in transitions){
+			if (el.style[t] !== undefined){
+				return transitions[t];
 			}
-		});
-
-		var justText = el.html();
-		justText = justText.replace(/&amp;/g, '&');
-		justText = justText.replace(/&/g, 'and');
-
-		return justText;
+		}
 	};
 
-	var showMessage = function() {
-		var message = _messages[_curIndex];
-
-		$messageContainer.fadeOut(function() {
-			$messageText.html(message.content);
-			$messageUser.html('&mdash;' + message.name);
-			$messageContainer.fadeIn();
-			timeoutAndNext();
-		});
-	};
-
-	var timeoutAndNext = function() {
-		clearTimeout(_delayTimeout);
-		_delayTimeout = setTimeout(function() {
-			_curIndex++;
-			if(_curIndex >= _messages.length) {
-				_curIndex = 0;
-			}
-			showMessage();
-		}, _delayTime);
-	};
-
-	var isImage = function(text) {
-		return (text.indexOf('.jpg')  > -1) || (text.indexOf('.png')  > -1) || (text.indexOf('.gif')  > -1) || (text.indexOf('http')  > -1);
-	};
-
-	// run code
 	init();
 })();

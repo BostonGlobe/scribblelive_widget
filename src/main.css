@@ -21,10 +21,10 @@
 	font-size: 12px;
 	border: 1px solid #ccc;
 	padding: 1em;
-	clear: both;
 	margin: 1em 0;
+	clear: both;
 }
-.scribblelive-widget .message-overline {
+.post-overline {
 	color: #9b1518;
 	text-transform: uppercase;
 	font-family: Helvetica, Arial, sans-serif;
@@ -32,13 +32,13 @@
 	margin-bottom: 0.25em;
 	line-height: 1;
 }
-.scribblelive-widget .message-hed {
+.post-hed {
 	font-size: 1.8em;
 	font-family: "Benton", Helvetica, Arial, sans-serif;
 	line-height: 1;
 	margin-bottom: 0.5em;
 }
-.scribblelive-widget .message-container {
+.post-container {
 	height: 8em;
 	line-height: 1.4;
 	font-size: 1.1em;
@@ -46,12 +46,19 @@
 	color: #555;
 	margin-bottom: 0.5em;
 	overflow-y: auto;
+	opacity: 1;
+	-webkit-transition: opacity 0.5s linear;
+	-moz-transition: opacity 0.5s linear;
+	transition: opacity 0.5s linear;
 }
-.scribblelive-widget .message-user {
+.post-container.hide {
+	opacity: 0;
+}
+.post-user {
 	font-style: italic;
 	text-align: right;
 }
-.scribblelive-widget .go-button {
+.go-button {
 	font-family: "Benton", Helvetica, Arial, sans-serif;
 	display: inline-block;
 	text-align: center;
@@ -63,6 +70,6 @@
 	width: 100%;
 	text-decoration: none;
 }
-.scribblelive-widget .go-button:hover {
+.go-button:hover {
 	background-color: #aa383a;
 }
