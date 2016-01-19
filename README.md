@@ -29,5 +29,3 @@ Graphic files live at `/Boston/Content/Metro/WebGraphics/reusable/scribblelive`
 
 ## TODO
 * truncate (option / default to twitter)
-* remove jquery
-* rewrite / modularize
