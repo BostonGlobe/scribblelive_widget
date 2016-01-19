@@ -9,7 +9,7 @@
 
     	/*** BEGIN CUSTOMIZE ***/
 
-    	var customData = {
+		var customData = {
 			overline: '',
 			hed: '',
 			url: 'http://www.live.bostonglobe.com',
