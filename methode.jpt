@@ -7,7 +7,8 @@
 <script>
     (function() {
 
-    	/*** BEGIN CUSTOMIZE ***/
+		
+		/*** BEGIN CUSTOMIZE ***/
 
 		var customData = {
 			overline: '',
@@ -20,9 +21,10 @@
 
 		/*** END CUSTOMIZE ***/
 
+		
+		
 		customData = JSON.stringify(customData);
-
-
+		
 		var getSource = function() {
 
 
