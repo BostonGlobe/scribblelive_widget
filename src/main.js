@@ -27,7 +27,7 @@
 	};	
 
 	// graphic code
-	window.loadScribbleliveData = function(data) {
+	window.onLoadData = function(data) {
 		if(data && data.Posts) {
 			_messages = getMessages(data.Posts);
 			
