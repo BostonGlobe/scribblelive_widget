@@ -58,7 +58,7 @@
 	font-style: italic;
 	text-align: right;
 }
-.go-button {
+.post-button {
 	font-family: "Benton", Helvetica, Arial, sans-serif;
 	display: inline-block;
 	text-align: center;
@@ -70,6 +70,6 @@
 	width: 100%;
 	text-decoration: none;
 }
-.go-button:hover {
+.post-button:hover {
 	background-color: #aa383a;
 }

@@ -30,6 +30,7 @@
 		_opts.overline = _opts.overline || 'Latest Updates';
 		_opts.hed = _opts.hed || 'Live from the newsroom';
 		_opts.url = _opts.url || 'http://live.bostonglobe.com';
+		_opts.button = _opts.button || 'LIVE coverage';
 		_opts.max = _opts.max || 5;
 		_opts.delay = _opts.delay * 1000 || 8000;
 		_opts.chron = _opts.chron || false;
@@ -42,7 +43,8 @@
 	var setText = function() {
 		document.getElementsByClassName('post-overline')[0].innerText = _opts.overline;
 		document.getElementsByClassName('post-hed')[0].innerText = _opts.hed;
-		document.getElementsByClassName('post-url')[0].setAttribute('href',  _opts.url);
+		document.getElementsByClassName('post-button')[0].setAttribute('href',  _opts.url);
+		document.getElementsByClassName('post-button')[0].innerHTML = _opts.button + ' &rarr;';
 	};
 
 	var getPosts = function(posts) {
