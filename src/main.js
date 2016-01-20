@@ -36,7 +36,7 @@
 
 		setText();
 
-		loadJS(_opts.jsonp);
+		loadJS(_opts.data + '?callback=?');
 	};
 
 	var setText = function() {
