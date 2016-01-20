@@ -26,6 +26,3 @@ Replace the brackets above with your info.
 
 ## Developers
 Graphic files live at `/Boston/Content/Metro/WebGraphics/reusable/scribblelive`
-
-## TODO
-* truncate (option / default to twitter)
