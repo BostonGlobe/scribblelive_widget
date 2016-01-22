@@ -41,8 +41,8 @@
 	};
 
 	var setText = function() {
-		document.getElementsByClassName('post-overline')[0].innerText = _opts.overline;
-		document.getElementsByClassName('post-hed')[0].innerText = _opts.hed;
+		document.getElementsByClassName('post-overline')[0].innerHTML = _opts.overline;
+		document.getElementsByClassName('post-hed')[0].innerHTML = _opts.hed;
 		document.getElementsByClassName('post-button')[0].setAttribute('href',  _opts.url);
 		document.getElementsByClassName('post-button')[0].innerHTML = _opts.button + ' &rarr;';
 	};
