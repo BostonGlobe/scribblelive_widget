@@ -11,11 +11,11 @@
 		/*** BEGIN CUSTOMIZE ***/
 
 		var customData = {
-			data: 'http://www.boston.com/partners/primaries-2016-scribblelive.jsonp',
+			data: 'https://apps.boston.com/cron/primaries-2016-scribblelive.jsonp',
 			overline: '2016 election coverage',
 			hed: 'Live from the primary',
 			button: 'LIVE coverage',
-			url: 'http://www.live.bostonglobe.com',
+			url: 'http://www.bostonglobe.com/live/1795505',
 			max: 5,
 			chron: false
 		};
