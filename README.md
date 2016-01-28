@@ -24,6 +24,7 @@ End on [date]
 Replace the brackets above with your info.
 
 Step 3: Create a new jpt in Methode by copying the contents in the file [**methode.jpt**](/methode.jpt)
+
 Step 4: Fill out customData in jpt
 
 ## Developers
