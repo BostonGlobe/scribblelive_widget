@@ -61,6 +61,7 @@
 }
 .post-button {
 	font-family: "Benton", Helvetica, Arial, sans-serif;
+	font-weight: bold;
 	display: inline-block;
 	text-align: center;
 	color: white;
@@ -73,4 +74,5 @@
 }
 .post-button:hover {
 	background-color: #aa383a;
+	color: white;
 }
