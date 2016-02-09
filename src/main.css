@@ -19,8 +19,6 @@
 /* =========================== */
 .scribblelive-widget {
 	font-size: 12px;
-	border: 1px solid #ccc;
-	padding: 1em;
 	margin: 1em 0;
 	clear: both;
 }
@@ -40,7 +38,7 @@
 	font-weight: bold;
 }
 .post-container {
-	height: 8em;
+	min-height: 60px;
 	line-height: 1.4;
 	font-size: 1.1em;
 	font-family: Georgia, "Times New Roman", serif;

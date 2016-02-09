@@ -9,7 +9,14 @@
 		} else {
 			setTimeout(init, 50);
 		}
+		
+		setupResize();
 	};	
+
+	var setupResize = function() {
+		window.addEventListener('resize', onResize, false);
+		onResize();
+	};
 
 	window.onLoadData = function(data) {
 		if(data && data.Posts) {
@@ -34,6 +41,7 @@
 		_opts.max = _opts.max || 5;
 		_opts.delay = _opts.delay * 1000 || 8000;
 		_opts.chron = _opts.chron || false;
+		_opts.truncate = _opts.truncate || 150;
 
 		setText();
 
@@ -76,6 +84,7 @@
 		content = content.replace(/&amp;/g, '&');
 		content = content.replace(/&/g, 'and');
 
+		content = truncate(content);
 		return content;
 	};
 
@@ -131,6 +140,22 @@
 				return transitions[t];
 			}
 		}
+	};
+
+	var truncate = function(str) {
+		// TODO
+		return str;
+	};
+
+	var onResize = function() {
+		var minWidth = 150;
+		var maxHeight = 180;
+		var minHeight = 60;
+		var factor = 28;
+		var w = window.innerWidth;
+		var h = Math.max(minHeight, maxHeight - (w / minWidth * factor));
+		var el = document.querySelector('.post-container');
+		el.style.height = h + 'px';
 	};
 
 	init();
