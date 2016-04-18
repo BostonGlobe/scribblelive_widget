@@ -39,7 +39,7 @@
 				alert('Incorrect path to JPT. Make sure to paste entire path from "/Boston" through ".jpt".');
 				return false;
 			} else {
-				var version = '?v=' + Date.now();
+				var version = '?v=' + new Date().getTime()
 				path = path.substring(0, path.lastIndexOf('/'));
 				if(window.location.hostname.indexOf('prdedit') > -1) {
 					return 'http://prdedit.bostonglobe.com/r' + path + '/index.html' + version;

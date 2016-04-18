@@ -3,7 +3,7 @@
 	var _opts;
 
 	var init = function() {
-		if (pymChild) {
+		if (window.pymChild) {
 			pymChild.onMessage('pong', setupGraphic);
 			pymChild.sendMessage('ping', true);
 		} else {
@@ -56,12 +56,6 @@
 	};
 
 	var getPosts = function(posts) {
-		posts = posts.slice(0, _opts.max);
-
-		if (_opts.chron) {
-			posts.reverse();
-		}
-
 		var filteredPosts = posts.filter(function(post) {
 			return post.IsApproved === 1 && post.Type === 'TEXT';
 		});
@@ -74,18 +68,34 @@
 			};
 		});
 
-		return cleanPosts;
+		var slicedPosts = cleanPosts.slice(0, _opts.max);
+
+		if (_opts.chron) {
+			return slicedPosts.reverse();
+		}
+
+		return slicedPosts;
 	};
 
 	var cleanContent = function(content) {
+		console.log(content)
 		content = content.replace(/<img[^>]*>/g, '');
 		content = content.replace(/<br>/g, '');
 		content = content.replace(/<br\/>/g, '');
 		content = content.replace(/&amp;/g, '&');
 		content = content.replace(/&/g, 'and');
 
-		content = truncate(content);
-		return content;
+		var div = document.createElement('div');
+		div.innerHTML = content;
+
+		var links = div.querySelectorAll('a');
+
+		for (var i = 0; i < links.length; i++) {
+			links[i].setAttribute('target', '_blank');
+		}
+
+		console.log(div.innerHTML)
+		return div.innerHTML;
 	};
 
 	var showPosts = function(posts) {
@@ -144,6 +154,7 @@
 
 	var truncate = function(str) {
 		// TODO
+
 		return str;
 	};
 
