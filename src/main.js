@@ -79,9 +79,11 @@
 	};
 
 	var cleanContent = function(content) {
+		console.log(content)
 		content = content.replace(/<img[^>]*>/g, '');
 		content = content.replace(/<br>/g, '');
 		content = content.replace(/<br\/>/g, '');
+		content = content.replace(/&#35;/g, '#')
 		content = content.replace(/&amp;/g, '&');
 		content = content.replace(/&/g, 'and');
 
