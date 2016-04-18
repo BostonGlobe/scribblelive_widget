@@ -19,6 +19,7 @@
 	};
 
 	window.onLoadData = function(data) {
+		console.log(data.Posts)
 		if(data && data.Posts) {
 			var posts = getPosts(data.Posts);
 			if (posts.length) {
@@ -45,7 +46,8 @@
 
 		setText();
 
-		loadJS(_opts.data + '?callback=?');
+		var timestamp = new Date().getTime()
+		loadJS(_opts.data + '?v='+ timestamp +'&callback=?');
 	};
 
 	var setText = function() {
