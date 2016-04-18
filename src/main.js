@@ -78,7 +78,6 @@
 	};
 
 	var cleanContent = function(content) {
-		console.log(content)
 		content = content.replace(/<img[^>]*>/g, '');
 		content = content.replace(/<br>/g, '');
 		content = content.replace(/<br\/>/g, '');
@@ -94,7 +93,6 @@
 			links[i].setAttribute('target', '_blank');
 		}
 
-		console.log(div.innerHTML)
 		return div.innerHTML;
 	};
 
