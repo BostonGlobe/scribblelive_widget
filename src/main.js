@@ -19,7 +19,6 @@
 	};
 
 	window.onLoadData = function(data) {
-		console.log(data.Posts)
 		if(data && data.Posts) {
 			var posts = getPosts(data.Posts);
 			if (posts.length) {
